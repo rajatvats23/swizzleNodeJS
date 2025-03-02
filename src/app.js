@@ -5,6 +5,8 @@ const morgan = require('morgan');
 const connectDB = require('./config/database');
 const { errorHandler, notFound } = require('./middlewares/error.middleware');
 const authRoutes = require('./routes/auth.routes');
+const categoryRoutes = require('./routes/category.routes');
+const uploadRoutes = require('./routes/upload.routes');
 require('dotenv').config();
 
 // Connect to MongoDB
@@ -21,6 +23,8 @@ app.use(morgan('dev'));
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/category', categoryRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Test route
 app.get('/', (req, res) => {
