@@ -2,14 +2,61 @@ const { validationResult } = require('express-validator');
 const categoryService = require('../services/category.service');
 
 /**
- * Get all categories
+ * Get all categories with pagination and sorting
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
 const getAllCategories = async (req, res) => {
   try {
-    const categories = await categoryService.getAllCategories();
-    res.status(200).json(categories);
+    // Extract query parameters
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const sortBy = req.query.sortBy || 'createdAt';
+    const sortDirection = req.query.sortDirection === 'asc' ? 1 : -1;
+    const search = req.query.search || '';
+    
+    // Calculate skip value for pagination
+    const skip = (page - 1) * limit;
+    
+    // Build search query if search parameter exists
+    const searchQuery = search 
+      ? { 
+          isActive: true,
+          $or: [
+            { name: { $regex: search, $options: 'i' } },
+            { description: { $regex: search, $options: 'i' } }
+          ]
+        }
+      : { isActive: true };
+    
+    // Build sort object
+    const sortObj = {};
+    sortObj[sortBy] = sortDirection;
+    
+    // Get total count for pagination
+    const total = await categoryService.countCategories(searchQuery);
+    
+    // Get paginated and sorted categories
+    const categories = await categoryService.getPaginatedCategories(
+      searchQuery,
+      sortObj,
+      skip,
+      limit
+    );
+    
+    // Calculate total pages
+    const totalPages = Math.ceil(total / limit);
+    
+    // Return response with pagination info
+    res.status(200).json({
+      data: categories,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages
+      }
+    });
   } catch (error) {
     console.error('Error in getAllCategories controller:', error);
     res.status(500).json({ 

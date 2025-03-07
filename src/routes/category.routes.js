@@ -1,5 +1,5 @@
 const express = require('express');
-const { body, param } = require('express-validator');
+const { body, param, query } = require('express-validator');
 const { verifyToken } = require('../middlewares/auth.middleware');
 const categoryController = require('../controllers/category.controller');
 
@@ -8,8 +8,15 @@ const router = express.Router();
 // Apply authentication middleware to all routes
 router.use(verifyToken);
 
-// GET all categories
-router.get('/', categoryController.getAllCategories);
+// GET all categories with pagination, sorting, and search
+router.get('/', [
+  // Optional query parameter validation
+  query('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer'),
+  query('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limit must be between 1 and 100'),
+  query('sortBy').optional().isString().withMessage('Sort field must be a string'),
+  query('sortDirection').optional().isIn(['asc', 'desc']).withMessage('Sort direction must be asc or desc'),
+  query('search').optional().isString().withMessage('Search query must be a string')
+], categoryController.getAllCategories);
 
 // GET category by ID
 router.get(

@@ -2,6 +2,41 @@ const Category = require('../models/category.model');
 const imageUploadService = require('./image-upload.service');
 
 /**
+ * Count categories based on query
+ * @param {Object} query - MongoDB query object
+ * @returns {Promise<number>} - Count of matching categories
+ */
+const countCategories = async (query) => {
+  try {
+    return await Category.countDocuments(query);
+  } catch (error) {
+    console.error('Error in countCategories:', error);
+    throw new Error('Failed to count categories');
+  }
+};
+
+/**
+ * Get paginated and sorted categories
+ * @param {Object} query - MongoDB query object
+ * @param {Object} sort - MongoDB sort object
+ * @param {number} skip - Number of documents to skip
+ * @param {number} limit - Limit of documents to return
+ * @returns {Promise<Array>} - Array of category documents
+ */
+const getPaginatedCategories = async (query, sort, skip, limit) => {
+  try {
+    return await Category.find(query)
+      .sort(sort)
+      .skip(skip)
+      .limit(limit)
+      .lean();
+  } catch (error) {
+    console.error('Error in getPaginatedCategories:', error);
+    throw new Error('Failed to fetch paginated categories');
+  }
+};
+
+/**
  * Get all active categories
  * @returns {Promise<Array>} List of categories
  */
@@ -183,5 +218,7 @@ module.exports = {
   createCategory,
   updateCategory,
   deleteCategory,
-  hardDeleteCategory
+  hardDeleteCategory,
+  countCategories,        // New method
+  getPaginatedCategories  // New method
 };
