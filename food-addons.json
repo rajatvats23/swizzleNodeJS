@@ -1,0 +1,608 @@
+[
+  {
+    "name": "Extra Cheese",
+    "description": "Premium mozzarella cheese blend",
+    "price": 1.99,
+    "selectionType": "multiple",
+    "addonType": "topping",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/extra-cheese.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bc7",
+      "67cbfe5aa311917b071f3bcb"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Mushrooms",
+    "description": "Fresh sliced mushrooms",
+    "price": 1.49,
+    "selectionType": "multiple",
+    "addonType": "topping",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/mushrooms.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bc7",
+      "67cbfe5aa311917b071f3bcb"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Bell Peppers",
+    "description": "Fresh sliced green and red bell peppers",
+    "price": 1.29,
+    "selectionType": "multiple",
+    "addonType": "topping",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/bell-peppers.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bc7",
+      "67cbfe5aa311917b071f3bcb"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Onions",
+    "description": "Fresh sliced red onions",
+    "price": 0.99,
+    "selectionType": "multiple",
+    "addonType": "topping",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/onions.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bc7",
+      "67cbfe5aa311917b071f3bcb"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Olives",
+    "description": "Sliced black olives",
+    "price": 1.49,
+    "selectionType": "multiple",
+    "addonType": "topping",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/olives.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bc7",
+      "67cbfe5aa311917b071f3bcb"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Regular Crust",
+    "description": "Classic hand-tossed pizza crust",
+    "price": 0,
+    "selectionType": "single",
+    "addonType": "option",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/regular-crust.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bc7",
+      "67cbfe5aa311917b071f3bcb"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Thin Crust",
+    "description": "Thin and crispy pizza crust",
+    "price": 0,
+    "selectionType": "single",
+    "addonType": "option",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/thin-crust.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bc7",
+      "67cbfe5aa311917b071f3bcb"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Stuffed Crust",
+    "description": "Crust stuffed with mozzarella cheese",
+    "price": 2.99,
+    "selectionType": "single",
+    "addonType": "option",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/stuffed-crust.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bc7",
+      "67cbfe5aa311917b071f3bcb"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Extra Burger Cheese",
+    "description": "Additional slice of cheddar cheese",
+    "price": 1.49,
+    "selectionType": "multiple",
+    "addonType": "topping",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/burger-cheese.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bcf",
+      "67cbfe5aa311917b071f3bd2"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Bacon",
+    "description": "Crispy bacon strips",
+    "price": 1.99,
+    "selectionType": "multiple",
+    "addonType": "topping",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/bacon.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bcf"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Avocado",
+    "description": "Fresh sliced avocado",
+    "price": 1.99,
+    "selectionType": "multiple",
+    "addonType": "topping",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/avocado.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bcf",
+      "67cbfe5aa311917b071f3bd2"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Jalapeños",
+    "description": "Spicy sliced jalapeño peppers",
+    "price": 0.99,
+    "selectionType": "multiple",
+    "addonType": "topping",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/jalapenos.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bcf",
+      "67cbfe5aa311917b071f3bd2"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Medium Rare",
+    "description": "Warm red center, 135°F",
+    "price": 0,
+    "selectionType": "single",
+    "addonType": "option",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/medium-rare.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bcf"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Medium",
+    "description": "Warm pink center, 145°F",
+    "price": 0,
+    "selectionType": "single",
+    "addonType": "option",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/medium.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bcf"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Well Done",
+    "description": "No pink, 160°F",
+    "price": 0,
+    "selectionType": "single",
+    "addonType": "option",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/well-done.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bcf"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "French Fries",
+    "description": "Classic crispy french fries",
+    "price": 2.99,
+    "selectionType": "single",
+    "addonType": "extra",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/french-fries.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bcf",
+      "67cbfe5aa311917b071f3bd2"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Onion Rings",
+    "description": "Battered and fried onion rings",
+    "price": 3.49,
+    "selectionType": "single",
+    "addonType": "extra",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/onion-rings.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bcf",
+      "67cbfe5aa311917b071f3bd2"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Burger Side Salad",
+    "description": "Fresh garden salad with vinaigrette",
+    "price": 3.99,
+    "selectionType": "single",
+    "addonType": "extra",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/side-salad.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bcf",
+      "67cbfe5aa311917b071f3bd2"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Grilled Chicken",
+    "description": "Tender grilled chicken breast",
+    "price": 3.99,
+    "selectionType": "multiple",
+    "addonType": "topping",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/grilled-chicken.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3be1"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Extra Parmesan",
+    "description": "Additional grated parmesan cheese",
+    "price": 1.49,
+    "selectionType": "multiple",
+    "addonType": "topping",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/parmesan.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3be1"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Sautéed Mushrooms",
+    "description": "Sautéed mushrooms",
+    "price": 1.99,
+    "selectionType": "multiple",
+    "addonType": "topping",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/sauteed-mushrooms.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3be1"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Garlic Bread",
+    "description": "Toasted bread with garlic butter",
+    "price": 3.99,
+    "selectionType": "single",
+    "addonType": "extra",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/garlic-bread-pasta.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3be1"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Pasta Side Salad",
+    "description": "Fresh garden salad with balsamic vinaigrette",
+    "price": 4.49,
+    "selectionType": "single",
+    "addonType": "extra",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/pasta-side-salad.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3be1"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Vanilla Ice Cream",
+    "description": "Scoop of premium vanilla ice cream",
+    "price": 2.49,
+    "selectionType": "single",
+    "addonType": "extra",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/vanilla-ice-cream.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bd8"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Chocolate Sauce",
+    "description": "Rich chocolate fudge sauce",
+    "price": 0.99,
+    "selectionType": "multiple",
+    "addonType": "sauce",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/chocolate-sauce.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bd8"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Caramel Sauce",
+    "description": "Sweet and creamy caramel sauce",
+    "price": 0.99,
+    "selectionType": "multiple",
+    "addonType": "sauce",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/caramel-sauce.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bd8"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Whipped Cream",
+    "description": "Fresh whipped cream",
+    "price": 0.99,
+    "selectionType": "multiple",
+    "addonType": "topping",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/whipped-cream.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bd8"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Extra Peanuts",
+    "description": "Additional crushed peanuts",
+    "price": 0.99,
+    "selectionType": "multiple",
+    "addonType": "topping",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/crushed-peanuts.jpg",
+    "applicableProducts": [
+      "67cc0d60660b2feef546fdf8"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Extra Lime",
+    "description": "Additional lime wedges",
+    "price": 0.49,
+    "selectionType": "multiple",
+    "addonType": "topping",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/lime-wedges.jpg",
+    "applicableProducts": [
+      "67cc0d60660b2feef546fdf8"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Mild",
+    "description": "Low spice level, suitable for sensitive palates",
+    "price": 0,
+    "selectionType": "single",
+    "addonType": "option",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/mild-spice.jpg",
+    "applicableProducts": [
+      "67cc0d60660b2feef546fdf8"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Medium",
+    "description": "Moderate spice level, balanced heat",
+    "price": 0,
+    "selectionType": "single",
+    "addonType": "option",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/medium-spice.jpg",
+    "applicableProducts": [
+      "67cc0d60660b2feef546fdf8"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Spicy",
+    "description": "High heat level, for spice enthusiasts",
+    "price": 0,
+    "selectionType": "single",
+    "addonType": "option",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/spicy-level.jpg",
+    "applicableProducts": [
+      "67cc0d60660b2feef546fdf8"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Thai Hot",
+    "description": "Extremely spicy, authentic Thai heat level",
+    "price": 0,
+    "selectionType": "single",
+    "addonType": "option",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/thai-hot.jpg",
+    "applicableProducts": [
+      "67cc0d60660b2feef546fdf8"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Extra Sugar",
+    "description": "Additional sugar for your beverage",
+    "price": 0,
+    "selectionType": "multiple",
+    "addonType": "extra",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/sugar.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bd5"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Almond Milk",
+    "description": "Replace regular milk with almond milk",
+    "price": 1.49,
+    "selectionType": "single",
+    "addonType": "option",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/almond-milk.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bd5"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Oat Milk",
+    "description": "Replace regular milk with oat milk",
+    "price": 1.49,
+    "selectionType": "single",
+    "addonType": "option",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/oat-milk.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bd5"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  },
+  {
+    "name": "Extra Spice",
+    "description": "More ginger, cardamom, and cinnamon",
+    "price": 0.99,
+    "selectionType": "multiple",
+    "addonType": "extra",
+    "imageUrl": "https://swizzlefiles1-nv.s3.amazonaws.com/addons/extra-chai-spice.jpg",
+    "applicableProducts": [
+      "67cbfe5aa311917b071f3bd5"
+    ],
+    "isActive": true,
+    "createdBy": "67c366671f9675ef53a726ea",
+    "updatedBy": "67c366671f9675ef53a726ea",
+    "createdAt": "2025-03-08T17:45:39.114Z",
+    "updatedAt": "2025-03-08T17:45:39.114Z"
+  }
+]

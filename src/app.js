@@ -8,6 +8,7 @@ const authRoutes = require('./routes/auth.routes');
 const categoryRoutes = require('./routes/category.routes');
 const uploadRoutes = require('./routes/upload.routes');
 const productRoutes = require('./routes/product.routes');
+const addonRoutes = require('./routes/addon.routes');
 require('dotenv').config();
 
 // Connect to MongoDB
@@ -27,6 +28,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/addons', addonRoutes);
 
 // Test route
 app.get('/', (req, res) => {
