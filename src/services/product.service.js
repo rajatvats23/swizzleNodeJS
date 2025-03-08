@@ -1,35 +1,91 @@
-// src/services/product.service.js
 const Product = require('../models/product.model');
+const Category = require('../models/category.model');
 const imageUploadService = require('./image-upload.service');
+const mongoose = require('mongoose');
+
+/**
+ * Count products based on query
+ * @param {Object} query - MongoDB query object
+ * @returns {Promise<number>} - Count of matching products
+ */
+const countProducts = async (query) => {
+  try {
+    return await Product.countDocuments(query);
+  } catch (error) {
+    console.error('Error in countProducts:', error);
+    throw new Error('Failed to count products');
+  }
+};
+
+/**
+ * Get paginated and sorted products
+ * @param {Object} query - MongoDB query object
+ * @param {Object} sort - MongoDB sort object
+ * @param {number} skip - Number of documents to skip
+ * @param {number} limit - Limit of documents to return
+ * @param {Array} populate - Array of fields to populate
+ * @returns {Promise<Array>} - Array of product documents
+ */
+const getPaginatedProducts = async (query, sort, skip, limit, populate = []) => {
+  try {
+    let productQuery = Product.find(query)
+      .sort(sort)
+      .skip(skip)
+      .limit(limit);
+    
+    // Apply population if any fields specified
+    if (populate.includes('category')) {
+      productQuery = productQuery.populate('categoryId', 'name imageUrl');
+    }
+
+    return await productQuery.lean();
+  } catch (error) {
+    console.error('Error in getPaginatedProducts:', error);
+    throw new Error('Failed to fetch paginated products');
+  }
+};
 
 /**
  * Get all active products
- * @param {Object} query - Query parameters for filtering
+ * @param {Object} filters - Optional filter conditions
  * @returns {Promise<Array>} List of products
  */
-const getAllProducts = async (query = {}) => {
+const getAllProducts = async (filters = {}) => {
   try {
-    const filter = { isActive: true };
+    const query = { isActive: true, ...filters };
     
-    // Add category filter if provided
-    if (query.category) {
-      filter.category = query.category;
-    }
-    
-    // Add search filter if provided
-    if (query.search) {
-      filter.$text = { $search: query.search };
-    }
-    
-    const products = await Product.find(filter)
-      .populate('category', 'name')
+    return await Product.find(query)
+      .populate('categoryId', 'name imageUrl')
       .sort({ createdAt: -1 })
       .lean();
-      
-    return products;
   } catch (error) {
     console.error('Error in getAllProducts:', error);
     throw new Error('Failed to fetch products');
+  }
+};
+
+/**
+ * Get products by category ID
+ * @param {string} categoryId - Category ID
+ * @returns {Promise<Array>} List of products
+ */
+const getProductsByCategory = async (categoryId) => {
+  try {
+    // Validate that category exists
+    const categoryExists = await Category.exists({ _id: categoryId, isActive: true });
+    if (!categoryExists) {
+      throw new Error('Category not found');
+    }
+    
+    return await Product.find({ 
+      categoryId: categoryId,
+      isActive: true 
+    })
+      .sort({ createdAt: -1 })
+      .lean();
+  } catch (error) {
+    console.error(`Error in getProductsByCategory (${categoryId}):`, error);
+    throw error;
   }
 };
 
@@ -41,7 +97,7 @@ const getAllProducts = async (query = {}) => {
 const getProductById = async (id) => {
   try {
     const product = await Product.findOne({ _id: id, isActive: true })
-      .populate('category', 'name')
+      .populate('categoryId', 'name imageUrl')
       .lean();
     
     if (!product) {
@@ -63,6 +119,34 @@ const getProductById = async (id) => {
  */
 const createProduct = async (productData, user) => {
   try {
+    // Check if product with same name already exists
+    const existingProduct = await Product.findOne({ 
+      name: productData.name,
+      isActive: true
+    });
+    
+    if (existingProduct) {
+      throw new Error('Product with this name already exists');
+    }
+    
+    // Validate category exists
+    const categoryExists = await Category.exists({ 
+      _id: productData.categoryId,
+      isActive: true
+    });
+    
+    if (!categoryExists) {
+      throw new Error('Category not found or inactive');
+    }
+    
+    // Ensure at least one variant is marked as default if variants exist
+    if (productData.variants && productData.variants.length > 0) {
+      const hasDefault = productData.variants.some(variant => variant.isDefault);
+      if (!hasDefault) {
+        productData.variants[0].isDefault = true;
+      }
+    }
+    
     // Create new product
     const newProduct = new Product({
       ...productData,
@@ -72,7 +156,7 @@ const createProduct = async (productData, user) => {
     
     // Save product
     const savedProduct = await newProduct.save();
-    return await getProductById(savedProduct._id);
+    return savedProduct.toObject();
   } catch (error) {
     console.error('Error in createProduct:', error);
     throw error;
@@ -95,6 +179,41 @@ const updateProduct = async (id, updateData, user) => {
       throw new Error('Product not found');
     }
     
+    // Check if category is being updated
+    if (updateData.categoryId) {
+      // Validate category exists
+      const categoryExists = await Category.exists({ 
+        _id: updateData.categoryId,
+        isActive: true
+      });
+      
+      if (!categoryExists) {
+        throw new Error('Category not found or inactive');
+      }
+    }
+    
+    // Check if name is changed and not already taken
+    if (updateData.name && updateData.name !== product.name) {
+      const existingProduct = await Product.findOne({ 
+        name: updateData.name,
+        _id: { $ne: id },
+        isActive: true
+      });
+      
+      if (existingProduct) {
+        throw new Error('Product with this name already exists');
+      }
+    }
+    
+    // Handle variants update
+    if (updateData.variants) {
+      // Ensure at least one variant is marked as default if variants exist
+      const hasDefault = updateData.variants.some(variant => variant.isDefault);
+      if (updateData.variants.length > 0 && !hasDefault) {
+        updateData.variants[0].isDefault = true;
+      }
+    }
+    
     // Update fields
     Object.keys(updateData).forEach(key => {
       if (updateData[key] !== undefined) {
@@ -107,7 +226,7 @@ const updateProduct = async (id, updateData, user) => {
     
     // Save product
     const updatedProduct = await product.save();
-    return await getProductById(updatedProduct._id);
+    return updatedProduct.toObject();
   } catch (error) {
     console.error(`Error in updateProduct (${id}):`, error);
     throw error;
@@ -157,10 +276,12 @@ const hardDeleteProduct = async (id) => {
     }
     
     // Delete images from S3
-    if (product.images?.length) {
-      for (const imageUrl of product.images) {
-        await imageUploadService.deleteFile(imageUrl);
-      }
+    if (product.imageUrl) {
+      await imageUploadService.deleteFile(product.imageUrl);
+    }
+    
+    if (product.thumbnailUrl) {
+      await imageUploadService.deleteFile(product.thumbnailUrl);
     }
     
     // Delete product from database
@@ -173,9 +294,12 @@ const hardDeleteProduct = async (id) => {
 
 module.exports = {
   getAllProducts,
+  getProductsByCategory,
   getProductById,
   createProduct,
   updateProduct,
   deleteProduct,
-  hardDeleteProduct
+  hardDeleteProduct,
+  countProducts,
+  getPaginatedProducts
 };

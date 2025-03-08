@@ -1,103 +1,125 @@
-// src/models/product.model.js
 const mongoose = require('mongoose');
 
-const variantSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true
+const variantSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'Variant name is required'],
+      trim: true
+    },
+    price: {
+      type: Number,
+      required: [true, 'Variant price is required'],
+      min: [0, 'Price cannot be negative']
+    },
+    isDefault: {
+      type: Boolean,
+      default: false
+    }
   },
-  price: {
-    type: Number,
-    required: true,
-    min: 0
-  }
-});
+  { _id: true }
+);
+
+const nutritionalInfoSchema = new mongoose.Schema(
+  {
+    calories: {
+      type: Number,
+      required: false
+    },
+    protein: {
+      type: Number,
+      required: false
+    },
+    carbs: {
+      type: Number,
+      required: false
+    },
+    fat: {
+      type: Number,
+      required: false
+    },
+    fiber: {
+      type: Number,
+      required: false
+    }
+  },
+  { _id: false }
+);
 
 const productSchema = new mongoose.Schema(
   {
+    categoryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
+      required: [true, 'Category is required']
+    },
     name: {
       type: String,
       required: [true, 'Product name is required'],
       trim: true,
-      minlength: [2, 'Product name must be at least 2 characters']
+      unique: true,
+      minlength: [3, 'Product name must be at least 3 characters']
     },
     description: {
       type: String,
       required: [true, 'Description is required'],
-      trim: true
+      trim: true,
+      maxlength: [1000, 'Description cannot exceed 1000 characters']
     },
-    longDescription: {
+    basePrice: {
+      type: Number,
+      required: [true, 'Base price is required'],
+      min: [0, 'Base price cannot be negative']
+    },
+    imageUrl: {
       type: String,
-      trim: true
+      required: [true, 'Image URL is required']
     },
-    images: [{
+    thumbnailUrl: {
       type: String,
-      required: [true, 'At least one image is required']
-    }],
-    price: {
-      type: Number,
-      required: [true, 'Price is required'],
-      min: [0, 'Price cannot be negative']
-    },
-    costPrice: {
-      type: Number,
-      min: [0, 'Cost price cannot be negative']
-    },
-    category: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category'
-    },
-    variants: [variantSchema],
-    addOns: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Addon'
-    }],
-    minQuantity: {
-      type: Number,
-      default: 1,
-      min: 1
-    },
-    maxQuantity: {
-      type: Number,
-      default: 0
+      required: false
     },
     preparationTime: {
       type: Number,
-      min: 0
+      required: false,
+      min: [0, 'Preparation time cannot be negative']
     },
-    sku: {
-      type: String,
-      trim: true
+    ingredients: {
+      type: [String],
+      default: []
+    },
+    nutritionalInfo: {
+      type: nutritionalInfoSchema,
+      required: false
+    },
+    variants: {
+      type: [variantSchema],
+      validate: {
+        validator: function(variants) {
+          // Ensure at most one variant is marked as default
+          const defaultVariants = variants.filter(v => v.isDefault);
+          return defaultVariants.length <= 1;
+        },
+        message: 'Only one variant can be marked as default'
+      },
+      default: []
+    },
+    isVegetarian: {
+      type: Boolean,
+      default: false
+    },
+    isVegan: {
+      type: Boolean,
+      default: false
+    },
+    isGlutenFree: {
+      type: Boolean,
+      default: false
     },
     isActive: {
       type: Boolean,
       default: true
     },
-    hasSpecialPrice: {
-      type: Boolean,
-      default: false
-    },
-    specialPrice: {
-      type: Number,
-      min: 0
-    },
-    specialQuantity: {
-      type: Number,
-      min: 1
-    },
-    isBundle: {
-      type: Boolean,
-      default: false
-    },
-    availableQuantity: {
-      type: Number,
-      default: 0
-    },
-    searchTags: [{
-      type: String,
-      trim: true
-    }],
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -115,7 +137,14 @@ const productSchema = new mongoose.Schema(
 );
 
 // Add text indexes for search functionality
-productSchema.index({ name: 'text', description: 'text', searchTags: 'text' });
+productSchema.index({ 
+  name: 'text', 
+  description: 'text',
+  ingredients: 'text'
+});
+
+// Add compound index on categoryId and isActive for better querying
+productSchema.index({ categoryId: 1, isActive: 1 });
 
 const Product = mongoose.model('Product', productSchema);
 

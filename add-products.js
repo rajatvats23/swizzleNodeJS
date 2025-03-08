@@ -1,0 +1,537 @@
+const mongoose = require('mongoose');
+const fs = require('fs');
+
+// Connect to MongoDB (replace with your connection string)
+mongoose.connect('mongodb+srv://vatsrajat23:OHN0kFAhZibGaNXu@cluster0.6rasi.mongodb.net/swizzle_admin?retryWrites=true&w=majority&appName=Cluster0', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log('Connected to MongoDB');
+  importProducts();
+}).catch(err => {
+  console.error('MongoDB connection error:', err);
+});
+
+// Define your product schema (make sure it matches your actual schema)
+const productSchema = new mongoose.Schema({
+  categoryId: mongoose.Schema.Types.ObjectId,
+  name: String,
+  description: String,
+  basePrice: Number,
+  imageUrl: String,
+  thumbnailUrl: String,
+  preparationTime: Number,
+  ingredients: [String],
+  nutritionalInfo: {
+    calories: Number,
+    protein: Number,
+    carbs: Number,
+    fat: Number,
+    fiber: Number
+  },
+  variants: [{
+    name: String,
+    price: Number,
+    isDefault: Boolean
+  }],
+  isVegetarian: Boolean,
+  isVegan: Boolean,
+  isGlutenFree: Boolean,
+  isActive: Boolean,
+  createdBy: mongoose.Schema.Types.ObjectId,
+  updatedBy: mongoose.Schema.Types.ObjectId,
+  createdAt: Date,
+  updatedAt: Date
+}, { timestamps: false }); // Disable automatic timestamps
+
+const Product = mongoose.model('Product', productSchema);
+
+// Define sample products with actual category IDs from your database
+const sampleProducts = [
+  {
+    // Pizza category
+    categoryId: "67cb31e49d228cd0e91d6ca6", // Pizza
+    name: "Margherita Pizza",
+    description: "Classic Italian pizza with tomato sauce, mozzarella, and fresh basil.",
+    basePrice: 9.99,
+    imageUrl: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    thumbnailUrl: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+    preparationTime: 15,
+    ingredients: ["Tomato Sauce", "Mozzarella Cheese", "Fresh Basil", "Olive Oil", "Salt"],
+    nutritionalInfo: {
+      calories: 250,
+      protein: 12,
+      carbs: 32,
+      fat: 10.5,
+      fiber: 2.5
+    },
+    variants: [
+      { name: "Small (8\")", price: 9.99, isDefault: true },
+      { name: "Medium (12\")", price: 13.99, isDefault: false },
+      { name: "Large (16\")", price: 16.99, isDefault: false }
+    ],
+    isVegetarian: true,
+    isVegan: false,
+    isGlutenFree: false,
+    isActive: true,
+    createdBy: "67c366671f9675ef53a726ea", // Using the same user ID from your categories
+    updatedBy: "67c366671f9675ef53a726ea",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    // Pizza category
+    categoryId: "67cb31e49d228cd0e91d6ca6", // Pizza
+    name: "Pepperoni Pizza",
+    description: "Classic American-style pizza topped with pepperoni slices and mozzarella cheese.",
+    basePrice: 11.99,
+    imageUrl: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    thumbnailUrl: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+    preparationTime: 15,
+    ingredients: ["Tomato Sauce", "Mozzarella Cheese", "Pepperoni", "Olive Oil", "Oregano"],
+    nutritionalInfo: {
+      calories: 320,
+      protein: 15,
+      carbs: 33,
+      fat: 16,
+      fiber: 2
+    },
+    variants: [
+      { name: "Small (8\")", price: 11.99, isDefault: true },
+      { name: "Medium (12\")", price: 15.99, isDefault: false },
+      { name: "Large (16\")", price: 19.99, isDefault: false }
+    ],
+    isVegetarian: false,
+    isVegan: false,
+    isGlutenFree: false,
+    isActive: true,
+    createdBy: "67c366671f9675ef53a726ea",
+    updatedBy: "67c366671f9675ef53a726ea",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    // Burgers category
+    categoryId: "67cb31e49d228cd0e91d6ca7", // Burgers
+    name: "Classic Cheeseburger",
+    description: "Juicy beef patty topped with melted cheddar cheese, lettuce, tomato, and special sauce.",
+    basePrice: 8.99,
+    imageUrl: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    thumbnailUrl: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+    preparationTime: 10,
+    ingredients: ["Beef Patty", "Cheddar Cheese", "Lettuce", "Tomato", "Onion", "Pickles", "Special Sauce", "Sesame Bun"],
+    nutritionalInfo: {
+      calories: 550,
+      protein: 25,
+      carbs: 40,
+      fat: 32,
+      fiber: 3
+    },
+    variants: [
+      { name: "Single Patty", price: 8.99, isDefault: true },
+      { name: "Double Patty", price: 11.99, isDefault: false }
+    ],
+    isVegetarian: false,
+    isVegan: false,
+    isGlutenFree: false,
+    isActive: true,
+    createdBy: "67c366671f9675ef53a726ea",
+    updatedBy: "67c366671f9675ef53a726ea",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    // Burgers category
+    categoryId: "67cb31e49d228cd0e91d6ca7", // Burgers
+    name: "Veggie Burger",
+    description: "Plant-based patty with fresh vegetables and vegan cheese in a whole grain bun.",
+    basePrice: 9.99,
+    imageUrl: "https://images.unsplash.com/photo-1525059696034-4967a8e1dca2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    thumbnailUrl: "https://images.unsplash.com/photo-1525059696034-4967a8e1dca2?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+    preparationTime: 10,
+    ingredients: ["Plant-based Patty", "Vegan Cheese", "Lettuce", "Tomato", "Onion", "Avocado", "Vegan Mayo", "Whole Grain Bun"],
+    nutritionalInfo: {
+      calories: 420,
+      protein: 18,
+      carbs: 52,
+      fat: 18,
+      fiber: 8
+    },
+    variants: [
+      { name: "Regular", price: 9.99, isDefault: true },
+      { name: "Deluxe (with avocado)", price: 11.99, isDefault: false }
+    ],
+    isVegetarian: true,
+    isVegan: true,
+    isGlutenFree: false,
+    isActive: true,
+    createdBy: "67c366671f9675ef53a726ea",
+    updatedBy: "67c366671f9675ef53a726ea",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    // Beverages category
+    categoryId: "67cb31e49d228cd0e91d6caf", // Beverages
+    name: "Masala Chai",
+    description: "Traditional Indian spiced tea with a blend of aromatic spices and herbs.",
+    basePrice: 2.99,
+    imageUrl: "https://images.unsplash.com/photo-1571006502414-08d33c4a7437?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    thumbnailUrl: "https://images.unsplash.com/photo-1571006502414-08d33c4a7437?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+    preparationTime: 5,
+    ingredients: ["Black Tea", "Milk", "Sugar", "Cardamom", "Cinnamon", "Ginger", "Cloves"],
+    nutritionalInfo: {
+      calories: 120,
+      protein: 3,
+      carbs: 20,
+      fat: 4,
+      fiber: 0
+    },
+    variants: [
+      { name: "Regular", price: 2.99, isDefault: true },
+      { name: "Large", price: 3.99, isDefault: false }
+    ],
+    isVegetarian: true,
+    isVegan: false,
+    isGlutenFree: true,
+    isActive: true,
+    createdBy: "67c366671f9675ef53a726ea",
+    updatedBy: "67c366671f9675ef53a726ea",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    // Desserts category
+    categoryId: "67cb31e49d228cd0e91d6cae", // Desserts
+    name: "Chocolate Brownie",
+    description: "Rich and fudgy brownie with premium dark chocolate and walnuts.",
+    basePrice: 4.99,
+    imageUrl: "https://images.unsplash.com/photo-1589218436045-ee320057f443?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    thumbnailUrl: "https://images.unsplash.com/photo-1589218436045-ee320057f443?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+    preparationTime: 0, // Pre-made
+    ingredients: ["Dark Chocolate", "Flour", "Sugar", "Butter", "Eggs", "Walnuts", "Vanilla Extract"],
+    nutritionalInfo: {
+      calories: 380,
+      protein: 5,
+      carbs: 42,
+      fat: 22,
+      fiber: 3
+    },
+    variants: [
+      { name: "Single Piece", price: 4.99, isDefault: true },
+      { name: "With Ice Cream", price: 6.99, isDefault: false }
+    ],
+    isVegetarian: true,
+    isVegan: false,
+    isGlutenFree: false,
+    isActive: true,
+    createdBy: "67c366671f9675ef53a726ea",
+    updatedBy: "67c366671f9675ef53a726ea",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    // Salads category
+    categoryId: "67cb31e49d228cd0e91d6caa", // Salads
+    name: "Greek Salad",
+    description: "Fresh Mediterranean salad with cucumber, tomatoes, olives, feta cheese, and olive oil dressing.",
+    basePrice: 7.99,
+    imageUrl: "https://images.unsplash.com/photo-1540420773420-3366772f4999?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    thumbnailUrl: "https://images.unsplash.com/photo-1540420773420-3366772f4999?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+    preparationTime: 5,
+    ingredients: ["Cucumber", "Tomatoes", "Red Onion", "Kalamata Olives", "Feta Cheese", "Bell Pepper", "Olive Oil", "Lemon Juice", "Oregano"],
+    nutritionalInfo: {
+      calories: 280,
+      protein: 8,
+      carbs: 15,
+      fat: 22,
+      fiber: 5
+    },
+    variants: [
+      { name: "Side Salad", price: 7.99, isDefault: true },
+      { name: "Full Salad", price: 10.99, isDefault: false }
+    ],
+    isVegetarian: true,
+    isVegan: false,
+    isGlutenFree: true,
+    isActive: true,
+    createdBy: "67c366671f9675ef53a726ea",
+    updatedBy: "67c366671f9675ef53a726ea",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    // Sides category
+    categoryId: "67cb31e49d228cd0e91d6cb2", // Sides
+    name: "Garlic Bread",
+    description: "Freshly baked bread topped with garlic butter and herbs, served warm.",
+    basePrice: 4.49,
+    imageUrl: "https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    thumbnailUrl: "https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+    preparationTime: 8,
+    ingredients: ["Bread", "Butter", "Garlic", "Parsley", "Salt"],
+    nutritionalInfo: {
+      calories: 220,
+      protein: 4,
+      carbs: 28,
+      fat: 11,
+      fiber: 1.5
+    },
+    variants: [
+      { name: "4 Pieces", price: 4.49, isDefault: true },
+      { name: "8 Pieces", price: 7.99, isDefault: false }
+    ],
+    isVegetarian: true,
+    isVegan: false,
+    isGlutenFree: false,
+    isActive: true,
+    createdBy: "67c366671f9675ef53a726ea",
+    updatedBy: "67c366671f9675ef53a726ea",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    // Pasta category
+    categoryId: "67cb31e49d228cd0e91d6ca8", // Pasta
+    name: "Spaghetti Carbonara",
+    description: "Classic Italian pasta dish with eggs, cheese, pancetta, and black pepper.",
+    basePrice: 12.99,
+    imageUrl: "https://images.unsplash.com/photo-1608756687911-aa1599ab3bd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    thumbnailUrl: "https://images.unsplash.com/photo-1608756687911-aa1599ab3bd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+    preparationTime: 12,
+    ingredients: ["Spaghetti", "Eggs", "Pecorino Romano Cheese", "Pancetta", "Black Pepper", "Salt"],
+    nutritionalInfo: {
+      calories: 450,
+      protein: 22,
+      carbs: 48,
+      fat: 20,
+      fiber: 2
+    },
+    variants: [
+      { name: "Regular", price: 12.99, isDefault: true },
+      { name: "Large", price: 16.99, isDefault: false }
+    ],
+    isVegetarian: false,
+    isVegan: false,
+    isGlutenFree: false,
+    isActive: true,
+    createdBy: "67c366671f9675ef53a726ea",
+    updatedBy: "67c366671f9675ef53a726ea",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    // Sandwiches category
+    categoryId: "67cb31e49d228cd0e91d6ca9", // Sandwiches
+    name: "Club Sandwich",
+    description: "Triple-decker sandwich with chicken, bacon, lettuce, tomato, and mayo.",
+    basePrice: 9.49,
+    imageUrl: "https://images.unsplash.com/photo-1567234669003-dce7a7a88821?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    thumbnailUrl: "https://images.unsplash.com/photo-1567234669003-dce7a7a88821?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+    preparationTime: 8,
+    ingredients: ["Toasted Bread", "Grilled Chicken", "Bacon", "Lettuce", "Tomato", "Mayonnaise"],
+    nutritionalInfo: {
+      calories: 480,
+      protein: 28,
+      carbs: 35,
+      fat: 24,
+      fiber: 3
+    },
+    variants: [
+      { name: "Classic", price: 9.49, isDefault: true },
+      { name: "Double Meat", price: 12.49, isDefault: false }
+    ],
+    isVegetarian: false,
+    isVegan: false,
+    isGlutenFree: false,
+    isActive: true,
+    createdBy: "67c366671f9675ef53a726ea",
+    updatedBy: "67c366671f9675ef53a726ea",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    // Wraps category
+    categoryId: "67cb31e49d228cd0e91d6cb7", // Wraps
+    name: "Chicken Caesar Wrap",
+    description: "Grilled chicken, romaine lettuce, parmesan cheese, and Caesar dressing in a flour tortilla.",
+    basePrice: 8.99,
+    imageUrl: "https://images.unsplash.com/photo-1562522212-12da084b94b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    thumbnailUrl: "https://images.unsplash.com/photo-1562522212-12da084b94b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+    preparationTime: 6,
+    ingredients: ["Flour Tortilla", "Grilled Chicken", "Romaine Lettuce", "Parmesan Cheese", "Caesar Dressing", "Croutons"],
+    nutritionalInfo: {
+      calories: 420,
+      protein: 25,
+      carbs: 38,
+      fat: 18,
+      fiber: 3
+    },
+    variants: [
+      { name: "Regular", price: 8.99, isDefault: true },
+      { name: "Large", price: 10.99, isDefault: false }
+    ],
+    isVegetarian: false,
+    isVegan: false,
+    isGlutenFree: false,
+    isActive: true,
+    createdBy: "67c366671f9675ef53a726ea",
+    updatedBy: "67c366671f9675ef53a726ea",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    // Indian category
+    categoryId: "67cb31e49d228cd0e91d6cc0", // Indian
+    name: "Butter Chicken",
+    description: "Tender chicken cooked in a rich and creamy tomato-based sauce with Indian spices.",
+    basePrice: 13.99,
+    imageUrl: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    thumbnailUrl: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+    preparationTime: 18,
+    ingredients: ["Chicken", "Tomato", "Butter", "Cream", "Garam Masala", "Fenugreek Leaves", "Ginger", "Garlic"],
+    nutritionalInfo: {
+      calories: 520,
+      protein: 32,
+      carbs: 12,
+      fat: 38,
+      fiber: 2
+    },
+    variants: [
+      { name: "Regular", price: 13.99, isDefault: true },
+      { name: "Family Size", price: 24.99, isDefault: false }
+    ],
+    isVegetarian: false,
+    isVegan: false,
+    isGlutenFree: true,
+    isActive: true,
+    createdBy: "67c366671f9675ef53a726ea",
+    updatedBy: "67c366671f9675ef53a726ea",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    // Vegan category
+    categoryId: "67cb31e49d228cd0e91d6cbc", // Vegan
+    name: "Buddha Bowl",
+    description: "Nutritious bowl with quinoa, roasted vegetables, avocado, and tahini dressing.",
+    basePrice: 11.99,
+    imageUrl: "https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    thumbnailUrl: "https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+    preparationTime: 10,
+    ingredients: ["Quinoa", "Sweet Potato", "Broccoli", "Chickpeas", "Avocado", "Kale", "Tahini", "Lemon Juice"],
+    nutritionalInfo: {
+      calories: 480,
+      protein: 15,
+      carbs: 62,
+      fat: 22,
+      fiber: 14
+    },
+    variants: [
+      { name: "Regular", price: 11.99, isDefault: true },
+      { name: "Large", price: 14.99, isDefault: false }
+    ],
+    isVegetarian: true,
+    isVegan: true,
+    isGlutenFree: true,
+    isActive: true,
+    createdBy: "67c366671f9675ef53a726ea",
+    updatedBy: "67c366671f9675ef53a726ea",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    // Breakfast category
+    categoryId: "67cb31e49d228cd0e91d6cb0", // Breakfast
+    name: "Avocado Toast",
+    description: "Sourdough toast topped with mashed avocado, cherry tomatoes, and microgreens.",
+    basePrice: 8.49,
+    imageUrl: "https://images.unsplash.com/photo-1603046891744-76e6300bd308?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    thumbnailUrl: "https://images.unsplash.com/photo-1603046891744-76e6300bd308?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+    preparationTime: 7,
+    ingredients: ["Sourdough Bread", "Avocado", "Cherry Tomatoes", "Microgreens", "Extra Virgin Olive Oil", "Salt", "Black Pepper"],
+    nutritionalInfo: {
+      calories: 320,
+      protein: 8,
+      carbs: 38,
+      fat: 18,
+      fiber: 9
+    },
+    variants: [
+      { name: "Regular", price: 8.49, isDefault: true },
+      { name: "With Poached Egg", price: 10.49, isDefault: false }
+    ],
+    isVegetarian: true,
+    isVegan: true,
+    isGlutenFree: false,
+    isActive: true,
+    createdBy: "67c366671f9675ef53a726ea",
+    updatedBy: "67c366671f9675ef53a726ea",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    // Wings category
+    categoryId: "67cb31e49d228cd0e91d6cb1", // Wings
+    name: "Buffalo Wings",
+    description: "Crispy chicken wings tossed in spicy buffalo sauce, served with celery and blue cheese dip.",
+    basePrice: 10.99,
+    imageUrl: "https://images.unsplash.com/photo-1608039755401-742074f0548d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    thumbnailUrl: "https://images.unsplash.com/photo-1608039755401-742074f0548d?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+    preparationTime: 12,
+    ingredients: ["Chicken Wings", "Buffalo Sauce", "Butter", "Garlic Powder", "Celery", "Blue Cheese Dressing"],
+    nutritionalInfo: {
+      calories: 580,
+      protein: 38,
+      carbs: 6,
+      fat: 42,
+      fiber: 1
+    },
+    variants: [
+      { name: "8 Pieces", price: 10.99, isDefault: true },
+      { name: "16 Pieces", price: 19.99, isDefault: false },
+      { name: "24 Pieces", price: 28.99, isDefault: false }
+    ],
+    isVegetarian: false,
+    isVegan: false,
+    isGlutenFree: true,
+    isActive: true,
+    createdBy: "67c366671f9675ef53a726ea",
+    updatedBy: "67c366671f9675ef53a726ea",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }
+];
+
+// Import products into database
+async function importProducts() {
+  try {
+    // Create a new file with product data
+    fs.writeFileSync('food-products.json', JSON.stringify(sampleProducts, null, 2));
+    console.log('Sample products saved to food-products.json');
+    
+    // Delete existing products if needed
+    await Product.deleteMany({});
+    console.log('Cleared existing products');
+    
+    // Convert string IDs to ObjectIds
+    const processedProducts = sampleProducts.map(product => {
+      return {
+        ...product,
+        categoryId: new mongoose.Types.ObjectId(product.categoryId),
+        createdBy: new mongoose.Types.ObjectId(product.createdBy),
+        updatedBy: new mongoose.Types.ObjectId(product.updatedBy)
+      };
+    });
+    
+    // Insert the new products
+    const result = await Product.insertMany(processedProducts);
+    console.log(`Successfully imported ${result.length} products`);
+    
+    mongoose.disconnect();
+    console.log('Disconnected from MongoDB');
+  } catch (error) {
+    console.error('Error importing products:', error);
+    mongoose.disconnect();
+  }
+}
